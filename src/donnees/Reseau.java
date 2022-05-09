@@ -1,10 +1,21 @@
 package donnees;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Reseau {
     private String nom;
     private List<Exploitant> exploitants;
+
+    public Reseau(String nom) {
+        this.nom = nom;
+        this.exploitants = new ArrayList<>();
+    }
+
+    public Reseau(String nom, List<Exploitant> exploitants) {
+        this.nom = nom;
+        this.exploitants = exploitants;
+    }
 
     public String getNom() {
         return nom;
@@ -22,7 +33,16 @@ public class Reseau {
         this.exploitants = exploitants;
     }
 
-    public static void main(String[] args) {
+    @Override
+    public String toString() {
+        return "Reseau{" +
+                "nom='" + nom + '\'' +
+                ", exploitants=" + exploitants +
+                '}';
+    }
 
+    public static void main(String[] args) {
+        Reseau reseau = new Reseau("Métropole Européenne de Lille");
+        System.out.println(reseau);
     }
 }
