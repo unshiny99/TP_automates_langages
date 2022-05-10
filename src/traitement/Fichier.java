@@ -15,6 +15,7 @@ public class Fichier {
     public String toString() {
         return "Fichier{" +
                 "nom='" + nom + '\'' +
+                ", entree=" + entree +
                 '}';
     }
 }

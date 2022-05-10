@@ -1,12 +1,24 @@
 package donnees;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Ligne {
     private String nom;
-    private String type;
-    private String description;
+    private List<Station> stations;
     private List<Liaison> liaisons;
+
+    public Ligne(String nom) {
+        this.nom = nom;
+        this.stations = new ArrayList<>();
+        this.liaisons = new ArrayList<>();
+    }
+
+    public Ligne(String nom, List<Liaison> liaisons, List<Station> stations) {
+        this.nom = nom;
+        this.stations = stations;
+        this.liaisons = liaisons;
+    }
 
     public String getNom() {
         return nom;
@@ -16,20 +28,21 @@ public class Ligne {
         this.nom = nom;
     }
 
-    public String getType() {
-        return type;
+    public List<Station> getStations() {
+        return stations;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public Station getStation(String nomStation) {
+        for (Station station : this.getStations()) {
+            if (station.getNom().equals(this.nom)) {
+                return station;
+            }
+        }
+        return null;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setStations(List<Station> stations) {
+        this.stations = stations;
     }
 
     public List<Liaison> getLiaisons() {
@@ -38,5 +51,22 @@ public class Ligne {
 
     public void setLiaisons(List<Liaison> liaisons) {
         this.liaisons = liaisons;
+    }
+
+    @Override
+    public String toString() {
+        String ligne = "Ligne{" +
+                "\nnom='" + nom + '\'' +
+                ",\nstations=[\n";
+        for(Station station : stations) {
+            ligne += "\t" + station + "\n";
+        }
+        ligne += "]\nliaisons=[\n";
+        for(Liaison liaison : liaisons) {
+            ligne += "\t" + liaison + "\n";
+        }
+        ligne += "]\n}";
+
+        return ligne;
     }
 }

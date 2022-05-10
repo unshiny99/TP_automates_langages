@@ -5,6 +5,20 @@ public class Liaison {
     private Station stationArrivee;
     private String heureDepart;
     private String heureArrivee;
+    private int duree;
+
+    public Liaison(Station stationDepart, Station stationArrivee, int duree) {
+        this.stationDepart = stationDepart;
+        this.stationArrivee = stationArrivee;
+        this.duree = duree;
+    }
+
+    public Liaison(Station stationDepart, Station stationArrivee, String heureDepart, String heureArrivee) {
+        this.stationDepart = stationDepart;
+        this.stationArrivee = stationArrivee;
+        this.heureDepart = heureDepart;
+        this.heureArrivee = heureArrivee;
+    }
 
     public Station getStationDepart() {
         return stationDepart;
@@ -36,5 +50,16 @@ public class Liaison {
 
     public void setHeureArrivee(String heureArrivee) {
         this.heureArrivee = heureArrivee;
+    }
+
+    @Override
+    public String toString() {
+        return "Liaison{" +
+                "stationDepart=" + stationDepart +
+                ", stationArrivee=" + stationArrivee +
+                ", heureDepart='" + heureDepart + '\'' +
+                ", heureArrivee='" + heureArrivee + '\'' +
+                ", duree=" + duree +
+                '}';
     }
 }
