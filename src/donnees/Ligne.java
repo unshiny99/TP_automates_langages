@@ -34,9 +34,16 @@ public class Ligne {
 
     public Station getStation(String nomStation) {
         for (Station station : this.getStations()) {
-            if (station.getNom().equals(this.nom)) {
+            if (station.getNom().equals(nomStation)) {
                 return station;
             }
+        }
+        return null;
+    }
+
+    public Station getStation(int index) {
+        if (index >=0 && index < this.stations.size()) {
+            return this.stations.get(index);
         }
         return null;
     }

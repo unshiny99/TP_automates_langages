@@ -13,11 +13,12 @@ public class Liaison {
         this.duree = duree;
     }
 
-    public Liaison(Station stationDepart, Station stationArrivee, String heureDepart, String heureArrivee) {
+    public Liaison(Station stationDepart, Station stationArrivee, String heureDepart, String heureArrivee, int duree) {
         this.stationDepart = stationDepart;
         this.stationArrivee = stationArrivee;
         this.heureDepart = heureDepart;
         this.heureArrivee = heureArrivee;
+        this.duree = duree;
     }
 
     public Station getStationDepart() {
