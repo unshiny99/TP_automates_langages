@@ -13,7 +13,18 @@ On pourra peut-être aller chercher l'info avant les '//' (à voir).
 
 ## Fichier `metro.txt`
 
-Il reste à interpréter les commentaires en bas du fichier pour dynamiser la création d'instance (ne pas faire qu'une liaison mais tous les tant de temps, et respecter les horaires)
+Il reste à interpréter les commentaires en bas du fichier pour dynamiser la création d'instance (ne pas faire qu'une liaison mais tous les tant de temps, et respecter les horaires).
+Le coeur du programme est fonctionnel.
 
 ## Fichier `bus.json`
+
+Dans ce fichier, il est important de respecter le nom des clés données. En effet, si le nom n'est plus le même, l'incorporation ne se fera plus correctement.
+On doit bien entendu respecter la syntaxe JSON. Enfin, le nom de ligne est obligatoire.
+L'implémentation de ce type de fichier est entièrement fonctionnelle.
+
+## Fichier `train.xml`
+
+
+
+## Fichier `tram.xml`
 
