@@ -53,6 +53,14 @@ public class Liaison {
         this.heureArrivee = heureArrivee;
     }
 
+    public int getDuree() {
+        return duree;
+    }
+
+    public void setDuree(int duree) {
+        this.duree = duree;
+    }
+
     @Override
     public String toString() {
         return "Liaison{" +

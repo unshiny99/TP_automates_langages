@@ -60,7 +60,7 @@ public class FichierTXT extends Fichier {
                     }
                 }
                 // vérification liaison
-                String patternLigne = "^([A-Z]([a-z])*)\\s+([A-Z]([a-z])*)\\s+([0-9]{1,})\\s*$";
+                String patternLigne = "^([A-Z]([a-z])*)\\s+([A-Z]([a-z])*)\\s+([0-2][0-9][0-5][0-9])\\s*$";
                 Pattern patternL = Pattern.compile(patternLigne);
                 if (ligneTexte.matches(patternLigne)) {
                     Matcher matcher = patternL.matcher(ligneTexte);
