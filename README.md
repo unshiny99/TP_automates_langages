@@ -22,9 +22,15 @@ Dans ce fichier, il est important de respecter le nom des clés données. En eff
 On doit bien entendu respecter la syntaxe JSON. Enfin, le nom de ligne est obligatoire.
 L'implémentation de ce type de fichier est entièrement fonctionnelle.
 
+=> Ajouter les clés nécessaires
+
 ## Fichier `train.xml`
 
-
+Les balises XML doivent être dans un ordre précis. On doit avoir la balise racine `horaires`, qui contient des `line` (lignes), qui sont composées de ``junction`` (jonctions/liaisons), qui elles-mêmes contiennent 4 attributs :
+- ``start-station`` : station de départ
+- ``arrival-station`` : station d'arrivée
+- ``start-hour`` : heure de départ
+- ``arrival-hour`` : heure d'arrivée
 
 ## Fichier `tram.xml`
 
