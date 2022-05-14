@@ -35,10 +35,10 @@ public class Reseau {
 
     @Override
     public String toString() {
-        return "Reseau{" +
+        return "Reseau{\n" +
                 "nom='" + nom + '\'' +
-                ", exploitants=" + exploitants +
-                '}';
+                ", \nexploitants=" + exploitants +
+                "\n}";
     }
 
     public static void main(String[] args) {

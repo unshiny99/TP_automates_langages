@@ -62,18 +62,18 @@ public class Ligne {
 
     @Override
     public String toString() {
-        String ligne = "Ligne{" +
-                "\nnom='" + nom + '\'' +
-                ",\nstations=[\n";
+        StringBuilder ligne = new StringBuilder("Ligne{" +
+                "\n\t\tnom='" + nom + '\'' +
+                ",\n\t\tstations=[\n");
         for(Station station : stations) {
-            ligne += "\t" + station + "\n";
+            ligne.append("\t\t\t").append(station).append("\n");
         }
-        ligne += "]\nliaisons=[\n";
+        ligne.append("\t\t]\n\t\tliaisons=[\n");
         for(Liaison liaison : liaisons) {
-            ligne += "\t" + liaison + "\n";
+            ligne.append("\t\t\t").append(liaison).append("\n");
         }
-        ligne += "]\n}";
+        ligne.append("\t\t]\n\t}");
 
-        return ligne;
+        return ligne.toString();
     }
 }

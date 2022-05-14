@@ -1,9 +1,6 @@
 package traitement;
 
-import donnees.Exploitant;
-import donnees.Liaison;
-import donnees.Ligne;
-import donnees.Station;
+import donnees.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -83,14 +80,76 @@ public class FichierXML extends Fichier {
                     }
                     System.out.println(exploitant);
                 } else if (nomRacine.equals("reseau")) {
-                    System.out.println("fichier tram.xml");
+                    // création du réseau et de l'exploitant
+                    Reseau reseau = new Reseau("tram");
+                    Exploitant exploitant = new Exploitant("tram");
+                    reseau.getExploitants().add(exploitant);
+
+                    NodeList nodeList = doc.getElementsByTagName("reseau");
+                    for (int i=0;i<nodeList.getLength();i++) {
+                        Node node = nodeList.item(i);
+                        if (node.getNodeType() == Node.ELEMENT_NODE) {
+                            Element element = (Element) node;
+
+                            NodeList lignes = element.getElementsByTagName("ligne");
+                            for (int j=0;j<lignes.getLength();j++) {
+                                Node ligne = lignes.item(j);
+                                // récupérer le nom de la Ligne
+                                String nomLigne = ligne.getChildNodes().item(0).getTextContent().trim();
+
+                                // instancier les Lignes
+                                Ligne ligneObj = new Ligne(nomLigne);
+                                if (ligne.getNodeType() == Node.ELEMENT_NODE) {
+                                    Element ligneElt = (Element) ligne;
+                                    // récupérer ordre des stations de la ligne
+                                    Node stationsLigne = ligneElt.getElementsByTagName("stations").item(0);
+                                    String stationsLigneTexte = stationsLigne.getTextContent();
+                                    String[] stations = stationsLigneTexte.split("\s");
+                                    // instanciation des Stations (sans doublon)
+                                    for (String stationTexte : stations) {
+                                        Station station = ligneObj.getStation(stationTexte);
+                                        if (station == null) {
+                                            station = new Station(stationTexte);
+                                            ligneObj.getStations().add(station);
+                                        }
+                                    }
+                                    NodeList heuresPassageJournee = ligneElt.getElementsByTagName("heures-passage");
+                                    for (int k=0;k<heuresPassageJournee.getLength();k++) {
+                                        Node heurePassageLigneTexte = heuresPassageJournee.item(k);
+                                        String heuresPassageTexte = heurePassageLigneTexte.getTextContent();
+
+                                        // découper les heures de passage par le séparateur espace
+                                        String[] heuresPassage = heuresPassageTexte.split("\s");
+
+                                        // récupérer les tableaux splités pour les instancier
+                                        for(int index=0;index<heuresPassage.length-1;index++) {
+                                            String stationDepartTexte = stations[index];
+                                            Station stationDepart = ligneObj.getStation(stationDepartTexte);
+                                            String stationArriveeTexte = stations[index+1];
+                                            Station stationArrivee = ligneObj.getStation(stationArriveeTexte);
+                                            String heureDepartTexte = heuresPassage[index];
+                                            LocalTime heureDepart = LocalTime.parse(heureDepartTexte, formatter);
+                                            String heureArriveeTexte = heuresPassage[index+1];
+                                            LocalTime heureArrivee = LocalTime.parse(heureArriveeTexte, formatter);
+                                            long dureeLong = Duration.between(heureDepart, heureArrivee).toMinutes();
+                                            int duree = (int) dureeLong;
+
+                                            // créer la liaison et l'ajouter
+                                            Liaison liaison = new Liaison(stationDepart,stationArrivee,heureDepartTexte,heureArriveeTexte,duree);
+                                            ligneObj.getLiaisons().add(liaison);
+                                        }
+                                    }
+                                }
+                                exploitant.getLignes().add(ligneObj);
+                            }
+                        }
+                    }
+                    System.out.println(reseau);
                 } else {
                     System.out.println("Racine incorrecte, merci de vérifier le fichier.");
                 }
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (SAXException | IOException e) {
+                System.out.println(e.getMessage());
             }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
