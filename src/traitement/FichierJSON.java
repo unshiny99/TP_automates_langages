@@ -1,8 +1,6 @@
 package traitement;
 
-import donnees.Liaison;
-import donnees.Ligne;
-import donnees.Station;
+import donnees.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,18 +14,25 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class FichierJSON extends Fichier {
-    public FichierJSON(String nom, Scanner scanner) {
-        super(nom, scanner);
+    public FichierJSON(String nom, String chemin, Scanner scanner) {
+        super(nom, chemin, scanner);
     }
 
     public void lireFichier() {
         JSONParser jsonParser = new JSONParser();
         try {
-            JSONObject objetJson = (JSONObject) jsonParser.parse(new FileReader("data/" + nom));
+            // création du réseau et de l'exploitant
+            Reseau reseau = new Reseau("bus");
+            Exploitant exploitant = new Exploitant("bus");
+            reseau.getExploitants().add(exploitant);
+
+            JSONObject objetJson = (JSONObject) jsonParser.parse(new FileReader(chemin));
             // récupérer l'attribut ligne
             String nomLigne = (String) objetJson.get("ligne");
-            //System.out.println(nomLigne);
+            // ajout de la ligne à l'exploitant
             Ligne ligneTransport = new Ligne(nomLigne);
+            exploitant.getLignes().add(ligneTransport);
+
             JSONArray horaires = (JSONArray) objetJson.get("horaires");
             //System.out.println(horaires);
             for (Object ligne : horaires) {

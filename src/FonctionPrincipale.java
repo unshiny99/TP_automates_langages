@@ -17,15 +17,13 @@ public class FonctionPrincipale extends Throwable {
                 String nomFichier = fichier.getName(); // nom du fichier
 
                 if (nomFichier.endsWith(".txt")) {
-                    FichierTXT fichierTXT = new FichierTXT(nomFichier, entree);
-                    // TODO : voir pour séparer les 2 fichiers TXT (2 fonctions !=)
+                    FichierTXT fichierTXT = new FichierTXT(nomFichier, chemin, entree);
                     fichierTXT.lireFichier();
                 } else if (nomFichier.endsWith(".json")) {
-                    FichierJSON fichierJSON = new FichierJSON(nomFichier, entree);
+                    FichierJSON fichierJSON = new FichierJSON(nomFichier, chemin, entree);
                     fichierJSON.lireFichier();
                 } else if (nomFichier.endsWith(".xml")) {
-                    FichierXML fichierXML = new FichierXML(nomFichier, entree);
-                    // TODO : voir pour séparer les 2 fichiers XML (2 fonctions !=)
+                    FichierXML fichierXML = new FichierXML(nomFichier, chemin, entree);
                     fichierXML.lireFichier();
                 } else {
                     System.out.println("Fichier non pris en charge. Vous devez spécifier un fichier au format TXT, JSON ou XML.");
