@@ -1,17 +1,13 @@
 package donnees;
 
-public class Liaison {
+public class Jonction {
     private Station stationDepart;
     private Station stationArrivee;
-    private String heureDepart;
-    private String heureArrivee;
     private int duree;
 
-    public Liaison(Station stationDepart, Station stationArrivee, String heureDepart, String heureArrivee, int duree) {
+    public Jonction(Station stationDepart, Station stationArrivee, int duree) {
         this.stationDepart = stationDepart;
         this.stationArrivee = stationArrivee;
-        this.heureDepart = heureDepart;
-        this.heureArrivee = heureArrivee;
         this.duree = duree;
     }
 
@@ -31,22 +27,6 @@ public class Liaison {
         this.stationArrivee = stationArrivee;
     }
 
-    public String getHeureDepart() {
-        return heureDepart;
-    }
-
-    public void setHeureDepart(String heureDepart) {
-        this.heureDepart = heureDepart;
-    }
-
-    public String getHeureArrivee() {
-        return heureArrivee;
-    }
-
-    public void setHeureArrivee(String heureArrivee) {
-        this.heureArrivee = heureArrivee;
-    }
-
     public int getDuree() {
         return duree;
     }
@@ -56,12 +36,17 @@ public class Liaison {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Jonction jonction)) return false;
+        return duree == jonction.duree && stationDepart.equals(jonction.stationDepart) && stationArrivee.equals(jonction.stationArrivee);
+    }
+
+    @Override
     public String toString() {
-        return "Liaison{" +
+        return "Jonction{" +
                 "stationDepart=" + stationDepart +
                 ", stationArrivee=" + stationArrivee +
-                ", heureDepart='" + heureDepart + '\'' +
-                ", heureArrivee='" + heureArrivee + '\'' +
                 ", duree=" + duree +
                 '}';
     }

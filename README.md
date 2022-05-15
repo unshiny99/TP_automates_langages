@@ -1,5 +1,5 @@
 # TP_automates_langages
-TP d'automates portant sur l'étude de données de transport, réalisé en Java.
+TP d'automates portant sur l'étude de données de transport, réalisé en Java et en monôme.
 
 ## Fichier `InterCites.txt`
 - Dans ce fichier, on fait l'hypothèse que le bus repart dès qu'il arrive, il n'y donc **pas de temps de pause**.
@@ -7,14 +7,16 @@ TP d'automates portant sur l'étude de données de transport, réalisé en Java.
 - Les liaisons doivent être insérées dans l'ordre chronologique de leur heure de départ.
 On peut donc directement retrouver les durées de trajet en faisant la différence entre les 2 heures de départs des stations consécutives.
 
-*Remarque* : Pour le moment, la dernière laison n'est pas prise en compte. 
+**Remarque** : Pour le moment, la dernière laison n'est pas prise en compte. 
 Cela est dû au fait que nous n'avons pas l'information sur son heure d'arrivée puisqu'il n'y a pas de prochaine ligne.
-On pourra peut-être aller chercher l'info avant les '//' (à voir).
+On pourra peut-être aller chercher l'info avant les `//` (à voir).
 
 ## Fichier `metro.txt`
 
-Il reste à interpréter les commentaires en bas du fichier pour dynamiser la création d'instance (ne pas faire qu'une liaison mais tous les tant de temps, et respecter les horaires).
-Le coeur du programme est fonctionnel.
+Le coeur du programme est fonctionnel. On instancie autant de liaisons qu'il y a de lignes de définition dans le fichier.
+
+Les 4 lignes de commentaires en bas sont très importantes. 
+
 
 ## Fichier `bus.json`
 
@@ -22,7 +24,7 @@ Dans ce fichier, il est important de respecter le nom des clés données. En eff
 On doit bien entendu respecter la syntaxe JSON. Enfin, le nom de ligne est obligatoire.
 L'implémentation de ce type de fichier est entièrement fonctionnelle.
 
-=> Ajouter les clés nécessaires
+**[IMPORTANT] : Ajouter les clés nécessaires**
 
 ## Fichier `train.xml`
 
@@ -34,3 +36,8 @@ Les balises XML doivent être dans un ordre précis. On doit avoir la balise rac
 
 ## Fichier `tram.xml`
 
+Les balises XML doivent être dans un ordre précis. On doit avoir la balise racine `reseau`, qui contient un élément `lignes`, qui est composé de `ligne`, qui elles-mêmes contiennent des ``stations`` et des `heures-passage` (heures de passage).
+
+Ces heures ont la particularité de pouvoir être à plusieurs sur une même balise, puisqu'on doit avoir autant d'heures que de stations.
+
+Le programme est tel qu'on ne regarde pas la liste des stations définie au début, donc si une station n'est pas comprise dans une des ``ligne``, elle ne sera pas instanciée.
