@@ -96,7 +96,7 @@ public class FichierXML extends Fichier {
             }
             exploitant.getLignes().add(ligne);
         }
-        System.out.println(exploitant);
+        System.out.println(reseau);
     }
 
     public void lireFichierTram(Document doc, DateTimeFormatter formatter) {

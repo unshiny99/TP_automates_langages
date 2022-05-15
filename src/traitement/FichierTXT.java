@@ -45,7 +45,6 @@ public class FichierTXT extends Fichier {
                 this.lireFichierInterCites(ligne);
             }
             System.out.println(reseau);
-            System.out.println(ligne.getLiaisons().size());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

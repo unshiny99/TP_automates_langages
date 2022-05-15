@@ -1,6 +1,10 @@
 # TP_automates_langages
 TP d'automates portant sur l'étude de données de transport, réalisé en Java et en monôme.
 
+**4 fichiers sur 5** sont entièrement focntionnels et génèrent les données attendues
+
+Librairies externes utilisées : ```json-simple-1.1``` pour le JSON, ``dom-2.3.0-jaxb-1.0.6`` pour l'XML.
+
 ## Fichier `InterCites.txt`
 - Dans ce fichier, on fait l'hypothèse que le bus repart dès qu'il arrive, il n'y donc **pas de temps de pause**.
 - On suppose aussi que le trajet prend autant de temps dans un sens que dans l'autre.
@@ -15,7 +19,10 @@ On pourra peut-être aller chercher l'info avant les `//` (à voir).
 
 Le coeur du programme est fonctionnel. On instancie autant de liaisons qu'il y a de lignes de définition dans le fichier.
 
-Les 4 lignes de commentaires en bas sont très importantes. 
+Les 4 lignes de commentaires en bas sont très importantes. Elles permettent de définir les paramètres de génération des différentes liaisons.
+
+Elles doivent commencer par ``%``, et doivent respecter le format correspondant (lettres, espaces et nombres dans un ordre précis).
+Les accents sont tolérés, au vu du jeu de données fourni.
 
 
 ## Fichier `bus.json`
@@ -24,7 +31,7 @@ Dans ce fichier, il est important de respecter le nom des clés données. En eff
 On doit bien entendu respecter la syntaxe JSON. Enfin, le nom de ligne est obligatoire.
 L'implémentation de ce type de fichier est entièrement fonctionnelle.
 
-**[IMPORTANT] : Ajouter les clés nécessaires**
+**[IMPORTANT] : Ajouter les clés nécessaires ICI**
 
 ## Fichier `train.xml`
 

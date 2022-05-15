@@ -34,14 +34,10 @@ public class FichierJSON extends Fichier {
             exploitant.getLignes().add(ligneTransport);
 
             JSONArray horaires = (JSONArray) objetJson.get("horaires");
-            //System.out.println(horaires);
             for (Object ligne : horaires) {
                 JSONObject ligneObj = (JSONObject) ligne;
-                //System.out.println(ligneObj);
                 JSONArray stations = (JSONArray) ligneObj.get("stations");
-                //System.out.println(stations);
                 JSONArray passages = (JSONArray) ligneObj.get("passages");
-                //System.out.println(passages);
 
                 // ajout des stations (sans doublon)
                 for (Object s : stations) {
@@ -59,15 +55,7 @@ public class FichierJSON extends Fichier {
                 // ajout des liaisons
                 for (Object tournee : passages) {
                     JSONArray tourneeObj = (JSONArray) tournee;
-                    //System.out.println(tourneeObj);
-                    // Station stationDepart,
-                    //    Station stationArrivee,
-                    //    String heureDepart,
-                    //    String heureArrivee,
-                    //    int duree
                     for (int i=0;i<stations.size()-1;i++) {
-                        //String nomStationDepart = (String) stations.get(i);
-                        //System.out.println(tourneeObj.get(i));
                         String heureDepartTexte = (String) tourneeObj.get(i);
                         LocalTime heureDepart = LocalTime.parse(heureDepartTexte, formatter);
                         String heureArriveeTexte = (String) tourneeObj.get(i+1);
@@ -85,10 +73,9 @@ public class FichierJSON extends Fichier {
                         Liaison liaison = new Liaison(ligneTransport.getStation(stationDepart),ligneTransport.getStation(stationArrivee),heureDepartTexte,heureArriveeTexte,duree);
                         ligneTransport.getLiaisons().add(liaison);
                     }
-
                 }
             }
-            System.out.println(ligneTransport);
+            System.out.println(reseau);
         } catch (IOException e) {
             System.out.println("Le fichier n'a pas été trouvé.");
         } catch (ParseException e) {
