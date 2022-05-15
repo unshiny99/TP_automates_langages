@@ -298,7 +298,7 @@ public class FichierTXT extends Fichier {
             }
 
             // vérification liaison
-            String patternLigne = "^([A-Z]([a-z])*)\\s+([A-Z]([a-z])*)\\s+([0-9]{3,4})\\s*$";
+            String patternLigne = "^([A-Z]([a-z])*)\\s+([A-Z]([a-z])*)\\s+(([0-1][1-9]|2[0-3])[0-5][0-9])\\s*$";
             Pattern patternL = Pattern.compile(patternLigne);
             if (slashsTrouves) {
                 Matcher matcher = patternL.matcher(ligneTexte);
