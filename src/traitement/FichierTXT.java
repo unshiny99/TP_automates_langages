@@ -3,7 +3,6 @@ package traitement;
 import donnees.*;
 
 import java.io.*;
-import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -115,7 +114,7 @@ public class FichierTXT extends Fichier {
             }
 
             // vérif des horaires en heure pleine
-            String patternHorairesJourneeTxt = "^%\\s+([A-Za-zÀ-ÿ]*\\s+)*([0-9]+)\\s+([A-Za-zÀ-ÿ]*\\s+)*(([0-1][1-9]|2[0-3]):[0-5][0-9])\\s+[A-Za-zÀ-ÿ]*\\s+(([0-1][1-9]|2[0-3]):[0-5][0-9])\\s+([A-Za-zÀ-ÿ]*\\s+)*(([0-1][1-9]|2[0-3]):[0-5][0-9])\\s+[A-Za-zÀ-ÿ]*\\s+(([0-1][1-9]|2[0-3]):[0-5][0-9])\\s*$";
+            String patternHorairesJourneeTxt = "^%\\s+([A-Za-zÀ-ÿ]*\\s+)*([0-9]+)\\s+([A-Za-zÀ-ÿ]*\\s+)*(([0-1][0-9]|2[0-3]):[0-5][0-9])\\s+[A-Za-zÀ-ÿ]*\\s+(([0-1][0-9]|2[0-3]):[0-5][0-9])\\s+([A-Za-zÀ-ÿ]*\\s+)*(([0-1][0-9]|2[0-3]):[0-5][0-9])\\s+[A-Za-zÀ-ÿ]*\\s+(([0-1][0-9]|2[0-3]):[0-5][0-9])\\s*$";
             Pattern patternHorairesJournee = Pattern.compile(patternHorairesJourneeTxt);
             if (ligneTexte.matches(patternHorairesJourneeTxt)) {
                 Matcher matcherHorairesJournee = patternHorairesJournee.matcher(ligneTexte);
@@ -147,7 +146,7 @@ public class FichierTXT extends Fichier {
             }
 
             // vérif heure dernier départ
-            String patternHeureDernierTxt = "^%\\s+([A-Za-zÀ-ÿ]*\\s+)*(([0-1][1-9]|2[0-3]):[0-5][0-9])\\s*$";
+            String patternHeureDernierTxt = "^%\\s+([A-Za-zÀ-ÿ]*\\s+)*(([0-1][0-9]|2[0-3]):[0-5][0-9])\\s*$";
             Pattern patternHeureDernier = Pattern.compile(patternHeureDernierTxt);
             if (ligneTexte.matches(patternHeureDernierTxt)) {
                 Matcher matcherHeureDernier = patternHeureDernier.matcher(ligneTexte);
