@@ -8,12 +8,10 @@ Librairies externes utilisées : ```json-simple-1.1``` pour le JSON, ``dom-2.3.0
 ## Fichier `InterCites.txt`
 - Dans ce fichier, on fait l'hypothèse que le bus repart dès qu'il arrive, il n'y donc **pas de temps de pause**.
 - On suppose aussi que le trajet prend autant de temps dans un sens que dans l'autre.
-- Les liaisons doivent être insérées dans l'ordre chronologique de leur heure de départ.
-On peut donc directement retrouver les durées de trajet en faisant la différence entre les 2 heures de départs des stations consécutives.
+- Les liaisons doivent être insérées dans l'ordre chronologique de leur heure de départ par convention (mais fonctionne si on ne respecte pas ça).
 
-**Remarque** : Pour le moment, la dernière laison n'est pas prise en compte. 
-Cela est dû au fait que nous n'avons pas l'information sur son heure d'arrivée puisqu'il n'y a pas de prochaine ligne.
-On pourra peut-être aller chercher l'info avant les `//` (à voir).
+**Remarque** : 
+On doit préciser les durées des jonctions avant les `//`, et les liaisons avec heure de départ après ces derniers.
 
 ## Fichier `metro.txt`
 

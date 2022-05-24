@@ -288,6 +288,7 @@ public class FichierTXT extends Fichier {
     public void lireFichierInterCites(Ligne ligne) {
         boolean slashsTrouves = false;
         int nbLigne = 0;
+        List<Jonction> jonctionsTemp = new ArrayList<>();
 
         // décrire les différents patterns
         while(entree.hasNextLine()) {
@@ -297,10 +298,10 @@ public class FichierTXT extends Fichier {
                 slashsTrouves = true;
             }
 
-            // vérification liaison
-            String patternLigne = "^([A-Z]([a-z])*)\\s+([A-Z]([a-z])*)\\s+(([0-1][1-9]|2[0-3])[0-5][0-9])\\s*$";
-            Pattern patternL = Pattern.compile(patternLigne);
             if (slashsTrouves) {
+                // vérification liaison
+                String patternLigne = "^([A-Z]([a-z])*)\\s+([A-Z]([a-z])*)\\s+(([0-1][0-9]|2[0-3])[0-5][0-9])\\s*$";
+                Pattern patternL = Pattern.compile(patternLigne);
                 Matcher matcher = patternL.matcher(ligneTexte);
 
                 // implémenter les liaisons
@@ -321,35 +322,42 @@ public class FichierTXT extends Fichier {
                     String heureDepartTexte = matcher.group(5);
                     LocalTime heureDepart = LocalTime.parse(heureDepartTexte, formatter);
 
-                    // obtenir le suivant pour calculer la durée du trajet
-                    Scanner scanLigneSuiv;
-                    try {
-                        scanLigneSuiv = new Scanner(new File(chemin));
+                    for (Jonction jonction : jonctionsTemp) {
+                        if ( (jonction.getStationDepart().getNom().equals(stationDepart.getNom()) && jonction.getStationArrivee().getNom().equals(stationArrivee.getNom())) ||
+                                (jonction.getStationArrivee().getNom().equals(stationDepart.getNom()) && jonction.getStationDepart().getNom().equals(stationArrivee.getNom())) ) {
+                            // additionner la durée de la jonction pour avoir l'heure d'arrivée
+                            int duree = jonction.getDuree();
+                            LocalTime heureArrivee = heureDepart.plusMinutes(duree);
+                            String heureArriveeTexte = heureArrivee.toString().replace(":","");
 
-                        for (int i=0; i<nbLigne; i++) {
-                            scanLigneSuiv.nextLine(); // go to previous position (first scanner)
+                            // création de la liaison complète et ajout à la Ligne
+                            Liaison liaison = new Liaison(stationDepart, stationArrivee, heureDepartTexte, heureArriveeTexte, duree);
+                            ligne.getLiaisons().add(liaison);
+                        }
+                    }
+                }
+            } else { // slashs pas trouvés : enregistrer les jonctions
+                // vérification liaison
+                String patternLigne = "^([A-Z]([a-z])*)\\s+([A-Z]([a-z])*)\\s+([0-9]+)\\s*$";
+                Pattern patternL = Pattern.compile(patternLigne);
+                if (ligneTexte.matches(patternLigne)) {
+                    Matcher matcher = patternL.matcher(ligneTexte);
+
+                    // implémenter les liaisons
+                    if (matcher.find()) {
+                        Station stationDepart = ligne.getStation(matcher.group(1));
+                        // on crée les stations si elles n'existent pas
+                        if (stationDepart == null) {
+                            stationDepart = new Station(matcher.group(1));
+                        }
+                        Station stationArrivee = ligne.getStation(matcher.group(3));
+                        if (stationArrivee == null) {
+                            stationArrivee = new Station(matcher.group(3));
                         }
 
-                        if (scanLigneSuiv.hasNextLine()) {
-                            String ligneSuivante = scanLigneSuiv.nextLine();
-                            Matcher matcherNext = patternL.matcher(ligneSuivante);
-
-                            // récupérer l'heure de départ de la prochaine liaison
-                            if (matcherNext.find()) {
-                                String heureArriveeTexte = matcherNext.group(5);
-                                LocalTime heureArrivee = LocalTime.parse(heureArriveeTexte, formatter);
-
-                                long dureeLong = Duration.between(heureDepart, heureArrivee).toMinutes();
-                                int duree = (int) dureeLong;
-
-                                // création de la liaison complète et ajout à la Ligne
-                                Liaison liaison = new Liaison(stationDepart, stationArrivee, heureDepartTexte, heureArriveeTexte, duree);
-                                ligne.getLiaisons().add(liaison);
-                            }
-                        }
-                        scanLigneSuiv.close();
-                    } catch (FileNotFoundException e) {
-                        throw new RuntimeException(e);
+                        // ajout de toutes les jonctions du fichier dans la liste
+                        Jonction jonction = new Jonction(stationDepart, stationArrivee, Integer.parseInt(matcher.group(5)));
+                        jonctionsTemp.add(jonction);
                     }
                 }
             }
