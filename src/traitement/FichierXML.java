@@ -22,7 +22,7 @@ public class FichierXML extends Fichier {
         super(nom, chemin, scanner);
     }
 
-    public void lireFichier() {
+    public void lireFichier(Reseau reseau) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -35,9 +35,9 @@ public class FichierXML extends Fichier {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
 
                 if (nomRacine.equals("horaires")) {
-                    this.lireFichierTrain(doc,formatter);
+                    this.lireFichierTrain(doc, formatter, reseau);
                 } else if (nomRacine.equals("reseau")) {
-                    this.lireFichierTram(doc,formatter);
+                    this.lireFichierTram(doc, formatter, reseau);
                 } else {
                     System.out.println("Racine incorrecte, merci de vérifier le fichier.");
                 }
@@ -49,9 +49,8 @@ public class FichierXML extends Fichier {
         }
     }
 
-    public void lireFichierTrain(Document doc, DateTimeFormatter formatter) {
+    public void lireFichierTrain(Document doc, DateTimeFormatter formatter, Reseau reseau) {
         // création du réseau et de l'exploitant
-        Reseau reseau = new Reseau("train");
         Exploitant exploitant = new Exploitant("train");
         reseau.getExploitants().add(exploitant);
         NodeList nodeList = doc.getElementsByTagName("line");
@@ -99,9 +98,8 @@ public class FichierXML extends Fichier {
         System.out.println(reseau);
     }
 
-    public void lireFichierTram(Document doc, DateTimeFormatter formatter) {
+    public void lireFichierTram(Document doc, DateTimeFormatter formatter, Reseau reseau) {
         // création du réseau et de l'exploitant
-        Reseau reseau = new Reseau("tram");
         Exploitant exploitant = new Exploitant("tram");
         reseau.getExploitants().add(exploitant);
 

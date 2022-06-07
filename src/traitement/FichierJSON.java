@@ -18,11 +18,10 @@ public class FichierJSON extends Fichier {
         super(nom, chemin, scanner);
     }
 
-    public void lireFichier() {
+    public void lireFichier(Reseau reseau) {
         JSONParser jsonParser = new JSONParser();
         try {
             // création du réseau et de l'exploitant
-            Reseau reseau = new Reseau("bus");
             Exploitant exploitant = new Exploitant("bus");
             reseau.getExploitants().add(exploitant);
 

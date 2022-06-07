@@ -18,7 +18,7 @@ public class FichierTXT extends Fichier {
         super(nom, chemin, entree);
     }
 
-    public void lireFichier() {
+    public void lireFichier(Reseau reseau) {
         String nomLigne = nom.substring(0,nom.lastIndexOf("."));
         BufferedReader reader;
         try {
@@ -28,7 +28,6 @@ public class FichierTXT extends Fichier {
         }
         // obtenir et analyser la première ligne
         try {
-            Reseau reseau = new Reseau(nomLigne);
             Exploitant exploitant = new Exploitant(nomLigne);
             reseau.getExploitants().add(exploitant);
 
@@ -114,7 +113,9 @@ public class FichierTXT extends Fichier {
             }
 
             // vérif des horaires en heure pleine
-            String patternHorairesJourneeTxt = "^%\\s+([A-Za-zÀ-ÿ]*\\s+)*([0-9]+)\\s+([A-Za-zÀ-ÿ]*\\s+)*(([0-1][0-9]|2[0-3]):[0-5][0-9])\\s+[A-Za-zÀ-ÿ]*\\s+(([0-1][0-9]|2[0-3]):[0-5][0-9])\\s+([A-Za-zÀ-ÿ]*\\s+)*(([0-1][0-9]|2[0-3]):[0-5][0-9])\\s+[A-Za-zÀ-ÿ]*\\s+(([0-1][0-9]|2[0-3]):[0-5][0-9])\\s*$";
+            String patternHorairesJourneeTxt = "^%\\s+([A-Za-zÀ-ÿ]*\\s+)*([0-9]+)\\s+([A-Za-zÀ-ÿ]*\\s+)*(([0-1][0-9]|2[0-3]):[0-5][0-9])" +
+                    "\\s+[A-Za-zÀ-ÿ]*\\s+(([0-1][0-9]|2[0-3]):[0-5][0-9])\\s+([A-Za-zÀ-ÿ]*\\s+)*" +
+                    "(([0-1][0-9]|2[0-3]):[0-5][0-9])\\s+[A-Za-zÀ-ÿ]*\\s+(([0-1][0-9]|2[0-3]):[0-5][0-9])\\s*$";
             Pattern patternHorairesJournee = Pattern.compile(patternHorairesJourneeTxt);
             if (ligneTexte.matches(patternHorairesJourneeTxt)) {
                 Matcher matcherHorairesJournee = patternHorairesJournee.matcher(ligneTexte);
@@ -284,7 +285,7 @@ public class FichierTXT extends Fichier {
         }
     }
 
-    public void lireFichierInterCites(Ligne ligne) {
+    public void lireFichierInterCites(Ligne ligne)  {
         boolean slashsTrouves = false;
         int nbLigne = 0;
         List<Jonction> jonctionsTemp = new ArrayList<>();

@@ -1,3 +1,4 @@
+import donnees.Reseau;
 import traitement.FichierJSON;
 import traitement.FichierTXT;
 import traitement.FichierXML;
@@ -9,29 +10,33 @@ import java.util.Scanner;
 public class FonctionPrincipale extends Throwable {
 
     public static void main(String[] args) {
-        try {
-            if (args.length > 0) {
-                String chemin = args[0];
-                File fichier = new File(chemin);
-                Scanner entree = new Scanner(fichier);
-                String nomFichier = fichier.getName(); // nom du fichier
+        String[] fichiers = {"bus.json","InterCites.txt", "metro.txt", "train.xml", "tram.xml"};
+        Reseau reseau = new Reseau("TP automates");
+        for (String fichier : fichiers) {
+            String chemin = "data/" + fichier;
+            File fichierFile = new File(chemin);
+            Scanner entree;
+            try {
+                entree = new Scanner(fichierFile);
+                String nomFichier = fichierFile.getName(); // nom du fichier
 
                 if (nomFichier.endsWith(".txt")) {
                     FichierTXT fichierTXT = new FichierTXT(nomFichier, chemin, entree);
-                    fichierTXT.lireFichier();
+                    fichierTXT.lireFichier(reseau);
                 } else if (nomFichier.endsWith(".json")) {
                     FichierJSON fichierJSON = new FichierJSON(nomFichier, chemin, entree);
-                    fichierJSON.lireFichier();
+                    fichierJSON.lireFichier(reseau);
                 } else if (nomFichier.endsWith(".xml")) {
                     FichierXML fichierXML = new FichierXML(nomFichier, chemin, entree);
-                    fichierXML.lireFichier();
+                    fichierXML.lireFichier(reseau);
                 } else {
                     System.out.println("Fichier non pris en charge. Vous devez spécifier un fichier au format TXT, JSON ou XML.");
                 }
                 entree.close();
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
+                //throw new RuntimeException(e);
             }
-        } catch (FileNotFoundException e) { // message cas fichier inexistant
-            System.out.println(e.getMessage());
         }
     }
 }
