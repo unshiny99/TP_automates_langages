@@ -74,7 +74,6 @@ public class FichierJSON extends Fichier {
                     }
                 }
             }
-            System.out.println(reseau);
         } catch (IOException e) {
             System.out.println("Le fichier n'a pas été trouvé.");
         } catch (ParseException e) {

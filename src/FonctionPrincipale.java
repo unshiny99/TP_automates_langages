@@ -38,5 +38,6 @@ public class FonctionPrincipale extends Throwable {
                 //throw new RuntimeException(e);
             }
         }
+        System.out.println(reseau);
     }
 }

@@ -42,7 +42,6 @@ public class FichierTXT extends Fichier {
             } else if (Objects.equals(line, "% Car Inter-Cité")) {
                 this.lireFichierInterCites(ligne);
             }
-            System.out.println(reseau);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
