@@ -2,6 +2,7 @@ import donnees.Reseau;
 import traitement.FichierJSON;
 import traitement.FichierTXT;
 import traitement.FichierXML;
+import traitement.InvalideFormatException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,7 +10,7 @@ import java.util.Scanner;
 
 public class FonctionPrincipale extends Throwable {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalideFormatException {
         String[] fichiers = {"bus.json","InterCites.txt", "metro.txt", "train.xml", "tram.xml"};
         Reseau reseau = new Reseau("TP automates");
         for (String fichier : fichiers) {

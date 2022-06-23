@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class FichierXML extends Fichier {
@@ -22,7 +23,7 @@ public class FichierXML extends Fichier {
         super(nom, chemin, scanner);
     }
 
-    public void lireFichier(Reseau reseau) {
+    public void lireFichier(Reseau reseau) throws InvalideFormatException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -52,7 +53,7 @@ public class FichierXML extends Fichier {
         }
     }
 
-    public void lireFichierTrain(Document doc, DateTimeFormatter formatter, Reseau reseau) {
+    public void lireFichierTrain(Document doc, DateTimeFormatter formatter, Reseau reseau) throws InvalideFormatException {
         // création du réseau et de l'exploitant
         Exploitant exploitant = new Exploitant("train");
         reseau.getExploitants().add(exploitant);
@@ -71,28 +72,38 @@ public class FichierXML extends Fichier {
                     if (jonction.getNodeType() == Node.ELEMENT_NODE) {
                         Element jonctionElt = (Element) jonction;
                         String stationDepartTexte = jonctionElt.getElementsByTagName("start-station").item(0).getTextContent();
+                        InvalideFormatException.validerNomUnique(stationDepartTexte);
                         String stationArriveeTexte = jonctionElt.getElementsByTagName("arrival-station").item(0).getTextContent();
+                        InvalideFormatException.validerNomUnique(stationArriveeTexte);
+
                         String heureDepartTexte = jonctionElt.getElementsByTagName("start-hour").item(0).getTextContent();
-                        LocalTime heureDepart = LocalTime.parse(heureDepartTexte, formatter);
+                        InvalideFormatException.validerHeureUnique(heureDepartTexte);
                         String heureArriveeTexte = jonctionElt.getElementsByTagName("arrival-hour").item(0).getTextContent();
-                        LocalTime heureArrivee = LocalTime.parse(heureArriveeTexte, formatter);
-                        long dureeLong = Duration.between(heureDepart, heureArrivee).toMinutes();
-                        int duree = (int) dureeLong;
-                        // créer les stations
-                        Station stationDepart = ligne.getStation(stationDepartTexte);
-                        // apprentissage des stations par les liaisons (sans doublon)
-                        if (stationDepart == null) {
-                            stationDepart = new Station(stationDepartTexte);
-                            ligne.getStations().add(stationDepart);
+                        InvalideFormatException.validerHeureUnique(heureArriveeTexte);
+                        try {
+                            LocalTime heureDepart = LocalTime.parse(heureDepartTexte, formatter);
+                            LocalTime heureArrivee = LocalTime.parse(heureArriveeTexte, formatter);
+                            long dureeLong = Duration.between(heureDepart, heureArrivee).toMinutes();
+                            int duree = (int) dureeLong;
+                            // créer les stations
+                            Station stationDepart = ligne.getStation(stationDepartTexte);
+                            // apprentissage des stations par les liaisons (sans doublon)
+                            if (stationDepart == null) {
+                                stationDepart = new Station(stationDepartTexte);
+                                ligne.getStations().add(stationDepart);
+                            }
+                            Station stationArrivee = ligne.getStation(stationArriveeTexte);
+                            if (stationArrivee == null) {
+                                stationArrivee = new Station(stationArriveeTexte);
+                                ligne.getStations().add(stationArrivee);
+                            }
+                            // créer la liaison et l'ajouter
+                            Liaison liaison = new Liaison(stationDepart,stationArrivee,heureDepartTexte,heureArriveeTexte,duree);
+                            ligne.getLiaisons().add(liaison);
+
+                        } catch (DateTimeParseException e) {
+                            throw new RuntimeException("Le format de l'heure n'est pas correct");
                         }
-                        Station stationArrivee = ligne.getStation(stationArriveeTexte);
-                        if (stationArrivee == null) {
-                            stationArrivee = new Station(stationArriveeTexte);
-                            ligne.getStations().add(stationArrivee);
-                        }
-                        // créer la liaison et l'ajouter
-                        Liaison liaison = new Liaison(stationDepart,stationArrivee,heureDepartTexte,heureArriveeTexte,duree);
-                        ligne.getLiaisons().add(liaison);
                     }
                 }
             }
@@ -100,7 +111,7 @@ public class FichierXML extends Fichier {
         }
     }
 
-    public void lireFichierTram(Document doc, DateTimeFormatter formatter, Reseau reseau) {
+    public void lireFichierTram(Document doc, DateTimeFormatter formatter, Reseau reseau) throws InvalideFormatException {
         // création du réseau et de l'exploitant
         Exploitant exploitant = new Exploitant("tram");
         reseau.getExploitants().add(exploitant);
@@ -124,6 +135,7 @@ public class FichierXML extends Fichier {
                         // récupérer ordre des stations de la ligne
                         Node stationsLigne = ligneElt.getElementsByTagName("stations").item(0);
                         String stationsLigneTexte = stationsLigne.getTextContent();
+                        InvalideFormatException.validerNomMultiple(stationsLigneTexte);
                         String[] stations = stationsLigneTexte.split("\s");
                         // instanciation des Stations (sans doublon)
                         for (String stationTexte : stations) {
@@ -137,6 +149,7 @@ public class FichierXML extends Fichier {
                         for (int k=0;k<heuresPassageJournee.getLength();k++) {
                             Node heurePassageLigneTexte = heuresPassageJournee.item(k);
                             String heuresPassageTexte = heurePassageLigneTexte.getTextContent();
+                            InvalideFormatException.validerHeureMultiple(heuresPassageTexte);
 
                             // découper les heures de passage par le séparateur espace
                             String[] heuresPassage = heuresPassageTexte.split("\s");
