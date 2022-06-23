@@ -34,7 +34,7 @@ public class FonctionPrincipale extends Throwable {
                 }
                 entree.close();
             } catch (FileNotFoundException e) {
-                System.out.println(e.getMessage());
+                System.out.println("Erreur d'entrée : le fichier n'a pas été trouvé !");
                 //throw new RuntimeException(e);
             }
         }

@@ -43,7 +43,8 @@ public class FichierTXT extends Fichier {
                 this.lireFichierInterCites(ligne);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Lecture du fichier texte impossible");
+            //throw new RuntimeException(e);
         }
     }
 
@@ -188,7 +189,6 @@ public class FichierTXT extends Fichier {
                             Liaison liaison = new Liaison(jonctions.get(i).getStationDepart(), jonctions.get(i).getStationArrivee(), heureDifferee.toString(), heureArrivee.toString(), jonctions.get(i).getDuree());
                             ligne.getLiaisons().add(liaison);
                             heureDepart = heureDifferee.plusMinutes(jonctions.get(i).getDuree() + tempsArret);
-                            //System.out.println(heureDepart);
                         } else {
                             LocalTime heureArrivee = heureDepart.plusMinutes(jonctions.get(i).getDuree());
                             Liaison liaison = new Liaison(jonctions.get(i).getStationDepart(), jonctions.get(i).getStationArrivee(), heureDepart.toString(), heureArrivee.toString(), jonctions.get(i).getDuree());
@@ -206,16 +206,15 @@ public class FichierTXT extends Fichier {
         if(heureFinMatin != null && heureDepartApM != null) {
             for (List<Jonction> jonctions : ensJonctions) {
                 int diff = heureDepartApM.compareTo(heureFinMatin);
-                LocalTime heureDepart = heureFinMatin;
-                LocalTime heureDifferee = heureFinMatin;
+                LocalTime heureDepart = heureFinMatin.plusMinutes(intervalleHeureCreuse);
+                LocalTime heureDifferee = heureFinMatin.plusMinutes(intervalleHeureCreuse);
                 while(diff >= 0) {
-                    for (int i=0; i<jonctions.size();i++) {
-                        if (i==0) {
+                    for (int i = 0; i < jonctions.size(); i++) {
+                        if (i == 0) {
                             LocalTime heureArrivee = heureDifferee.plusMinutes(jonctions.get(i).getDuree());
                             Liaison liaison = new Liaison(jonctions.get(i).getStationDepart(), jonctions.get(i).getStationArrivee(), heureDifferee.toString(), heureArrivee.toString(), jonctions.get(i).getDuree());
                             ligne.getLiaisons().add(liaison);
                             heureDepart = heureDifferee.plusMinutes(jonctions.get(i).getDuree() + tempsArret);
-                            //System.out.println(heureDepart);
                         } else {
                             LocalTime heureArrivee = heureDepart.plusMinutes(jonctions.get(i).getDuree());
                             Liaison liaison = new Liaison(jonctions.get(i).getStationDepart(), jonctions.get(i).getStationArrivee(), heureDepart.toString(), heureArrivee.toString(), jonctions.get(i).getDuree());
@@ -242,7 +241,6 @@ public class FichierTXT extends Fichier {
                             Liaison liaison = new Liaison(jonctions.get(i).getStationDepart(), jonctions.get(i).getStationArrivee(), heureDifferee.toString(), heureArrivee.toString(), jonctions.get(i).getDuree());
                             ligne.getLiaisons().add(liaison);
                             heureDepart = heureDifferee.plusMinutes(jonctions.get(i).getDuree() + tempsArret);
-                            //System.out.println(heureDepart);
                         } else {
                             LocalTime heureArrivee = heureDepart.plusMinutes(jonctions.get(i).getDuree());
                             Liaison liaison = new Liaison(jonctions.get(i).getStationDepart(), jonctions.get(i).getStationArrivee(), heureDepart.toString(), heureArrivee.toString(), jonctions.get(i).getDuree());
@@ -260,8 +258,8 @@ public class FichierTXT extends Fichier {
         if(heureFinApM != null && heureDernier != null) {
             for (List<Jonction> jonctions : ensJonctions) {
                 int diff = heureDernier.compareTo(heureFinApM);
-                LocalTime heureDepart = heureFinApM;
-                LocalTime heureDifferee = heureFinApM;
+                LocalTime heureDepart = heureFinApM.plusMinutes(intervalleHeureCreuse);
+                LocalTime heureDifferee = heureFinApM.plusMinutes(intervalleHeureCreuse);
                 while(diff >= 0) {
                     for (int i=0; i<jonctions.size();i++) {
                         if (i==0) {
@@ -269,7 +267,6 @@ public class FichierTXT extends Fichier {
                             Liaison liaison = new Liaison(jonctions.get(i).getStationDepart(), jonctions.get(i).getStationArrivee(), heureDifferee.toString(), heureArrivee.toString(), jonctions.get(i).getDuree());
                             ligne.getLiaisons().add(liaison);
                             heureDepart = heureDifferee.plusMinutes(jonctions.get(i).getDuree() + tempsArret);
-                            //System.out.println(heureDepart);
                         } else {
                             LocalTime heureArrivee = heureDepart.plusMinutes(jonctions.get(i).getDuree());
                             Liaison liaison = new Liaison(jonctions.get(i).getStationDepart(), jonctions.get(i).getStationArrivee(), heureDepart.toString(), heureArrivee.toString(), jonctions.get(i).getDuree());

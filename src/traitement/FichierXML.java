@@ -41,8 +41,11 @@ public class FichierXML extends Fichier {
                 } else {
                     System.out.println("Racine incorrecte, merci de vérifier le fichier.");
                 }
-            } catch (SAXException | IOException e) {
-                System.out.println(e.getMessage());
+            } catch (SAXException e) {
+                System.out.println("Erreur générale de parsage (SAX)");
+                //System.out.println(e.getMessage());
+            } catch (IOException e) {
+                System.out.println("Erreur d'entrée/sortie");
             }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
