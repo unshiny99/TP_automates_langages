@@ -39,7 +39,7 @@ public class Jonction {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Jonction jonction)) return false;
-        return duree == jonction.duree && stationDepart.equals(jonction.stationDepart) && stationArrivee.equals(jonction.stationArrivee);
+        return (duree == jonction.duree && stationDepart.equals(jonction.stationDepart) && stationArrivee.equals(jonction.stationArrivee));
     }
 
     @Override

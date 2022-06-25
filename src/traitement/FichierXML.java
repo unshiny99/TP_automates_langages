@@ -23,7 +23,7 @@ public class FichierXML extends Fichier {
         super(nom, chemin, scanner);
     }
 
-    public void lireFichier(Reseau reseau) throws InvalideFormatException {
+    public void lireFichier(Reseau reseau) throws InvalideFormatException, SAXException, IOException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -43,10 +43,9 @@ public class FichierXML extends Fichier {
                     System.out.println("Racine incorrecte, merci de vérifier le fichier.");
                 }
             } catch (SAXException e) {
-                System.out.println("Erreur générale de parsage (SAX)");
-                //System.out.println(e.getMessage());
+                throw new SAXException("Erreur générale de parsage (SAX)");
             } catch (IOException e) {
-                System.out.println("Erreur d'entrée/sortie");
+                throw new IOException("Erreur d'entrée/sortie");
             }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
@@ -136,7 +135,7 @@ public class FichierXML extends Fichier {
                         Node stationsLigne = ligneElt.getElementsByTagName("stations").item(0);
                         String stationsLigneTexte = stationsLigne.getTextContent();
                         InvalideFormatException.validerNomMultiple(stationsLigneTexte);
-                        String[] stations = stationsLigneTexte.split("\s");
+                        String[] stations = stationsLigneTexte.split("\\s");
                         // instanciation des Stations (sans doublon)
                         for (String stationTexte : stations) {
                             Station station = ligneObj.getStation(stationTexte);
@@ -152,7 +151,7 @@ public class FichierXML extends Fichier {
                             InvalideFormatException.validerHeureMultiple(heuresPassageTexte);
 
                             // découper les heures de passage par le séparateur espace
-                            String[] heuresPassage = heuresPassageTexte.split("\s");
+                            String[] heuresPassage = heuresPassageTexte.split("\\s");
 
                             // récupérer les tableaux splités pour les instancier
                             for(int index=0;index<heuresPassage.length-1;index++) {
