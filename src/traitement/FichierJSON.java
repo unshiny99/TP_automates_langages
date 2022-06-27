@@ -18,7 +18,7 @@ public class FichierJSON extends Fichier {
         super(nom, chemin, scanner);
     }
 
-    public void lireFichier(Reseau reseau) {
+    public void lireFichier(Reseau reseau) throws InvalideFormatException {
         JSONParser jsonParser = new JSONParser();
         try {
             // création du réseau et de l'exploitant
@@ -41,9 +41,11 @@ public class FichierJSON extends Fichier {
                 // ajout des stations (sans doublon)
                 for (Object s : stations) {
                     JSONObject stationObj = (JSONObject) s;
-                    Station station = ligneTransport.getStation((String) stationObj.get("station"));
+                    String stationTexte = (String) stationObj.get("station");
+                    InvalideFormatException.validerNomUnique(stationTexte);
+                    Station station = ligneTransport.getStation(stationTexte);
                     if (station == null) {
-                        station = new Station((String) stationObj.get("station"));
+                        station = new Station(stationTexte);
                         ligneTransport.getStations().add(station);
                     }
                 }
@@ -56,8 +58,10 @@ public class FichierJSON extends Fichier {
                     JSONArray tourneeObj = (JSONArray) tournee;
                     for (int i=0;i<stations.size()-1;i++) {
                         String heureDepartTexte = (String) tourneeObj.get(i);
+                        InvalideFormatException.validerHeureUnique(heureDepartTexte);
                         LocalTime heureDepart = LocalTime.parse(heureDepartTexte, formatter);
                         String heureArriveeTexte = (String) tourneeObj.get(i+1);
+                        InvalideFormatException.validerHeureUnique(heureArriveeTexte);
                         LocalTime heureArrivee = LocalTime.parse(heureArriveeTexte, formatter);
 
                         long dureeLong = Duration.between(heureDepart, heureArrivee).toMinutes();
@@ -77,7 +81,7 @@ public class FichierJSON extends Fichier {
         } catch (IOException e) {
             System.out.println("Le fichier n'a pas été trouvé.");
         } catch (ParseException e) {
-            System.out.println("Erreur dans le fichier JSON.");
+            throw new InvalideFormatException("Erreur dans le fichier JSON.");
         }
     }
 }

@@ -71,7 +71,7 @@ public class FichierTXT extends Fichier {
             String patternStation = "^([A-Z]([a-z])*)(\\s+([A-Z]([a-z])*))*\\s*$";
             if (ligneTexte.matches(patternStation)) {
                 // implémenter les stations
-                String[] stations = ligneTexte.split("\s");
+                String[] stations = ligneTexte.split("\\s");
                 for (String station : stations) {
                     Station stationObj = new Station(station);
                     if (!ligne.getStations().contains(stationObj)) {

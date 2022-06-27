@@ -1,4 +1,5 @@
 import donnees.Reseau;
+import org.xml.sax.SAXException;
 import traitement.FichierJSON;
 import traitement.FichierTXT;
 import traitement.FichierXML;
@@ -6,11 +7,12 @@ import traitement.InvalideFormatException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class FonctionPrincipale extends Throwable {
 
-    public static void main(String[] args) throws InvalideFormatException {
+    public static void main(String[] args) throws InvalideFormatException, IOException, SAXException {
         String[] fichiers = {"bus.json","InterCites.txt", "metro.txt", "train.xml", "tram.xml"};
         Reseau reseau = new Reseau("TP automates");
         for (String fichier : fichiers) {
