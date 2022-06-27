@@ -1,11 +1,6 @@
 package traitement;
 
-import java.time.LocalTime;
-
 public class InvalideFormatException extends Exception {
-    public InvalideFormatException() {
-    }
-
     public InvalideFormatException(String message) {
         super(message);
     }

@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class FonctionPrincipale extends Throwable {
 
     public static void main(String[] args) throws InvalideFormatException, IOException, SAXException {
+        // liste statiques des 5 fichiers à lire
         String[] fichiers = {"bus.json","InterCites.txt", "metro.txt", "train.xml", "tram.xml"};
         Reseau reseau = new Reseau("TP automates");
         for (String fichier : fichiers) {
@@ -33,14 +34,14 @@ public class FonctionPrincipale extends Throwable {
                     FichierXML fichierXML = new FichierXML(nomFichier, chemin, entree);
                     fichierXML.lireFichier(reseau);
                 } else {
-                    System.out.println("Fichier non pris en charge. Vous devez spécifier un fichier au format TXT, JSON ou XML.");
+                    throw new InvalideFormatException("Fichier non pris en charge. Vous devez spécifier un fichier au format TXT, JSON ou XML.");
                 }
                 entree.close();
             } catch (FileNotFoundException e) {
-                System.out.println("Erreur d'entrée : le fichier n'a pas été trouvé !");
-                //throw new RuntimeException(e);
+                throw new FileNotFoundException("Erreur d'entrée : le fichier n'a pas été trouvé !");
             }
         }
+        // affichage du réseau instancié
         System.out.println(reseau);
     }
 }
