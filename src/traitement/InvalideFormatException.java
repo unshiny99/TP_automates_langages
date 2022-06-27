@@ -31,9 +31,15 @@ public class InvalideFormatException extends Exception {
     }
 
     static void validerNomMultiple(String nom) throws InvalideFormatException {
-        System.out.println(nom);
         if(!nom.matches("([A-Za-zÀ-ÿ]*\\s+)*([A-Za-zÀ-ÿ]*\\s*)")){
             throw new InvalideFormatException("La liste de noms n'est pas au bon format !");
+        }
+    }
+
+    static void validerTransportTXT(String nom) throws InvalideFormatException {
+        System.out.println(nom);
+        if(!nom.matches("% métro") || !nom.matches("% Car Inter-Cité")){
+            throw new InvalideFormatException("Le type de transport est invalide dans le fichier texte (l.1)");
         }
     }
 }

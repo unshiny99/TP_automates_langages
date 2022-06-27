@@ -18,7 +18,7 @@ public class FichierTXT extends Fichier {
         super(nom, chemin, entree);
     }
 
-    public void lireFichier(Reseau reseau) {
+    public void lireFichier(Reseau reseau) throws InvalideFormatException {
         String nomLigne = nom.substring(0,nom.lastIndexOf("."));
         BufferedReader reader;
         try {
@@ -37,6 +37,7 @@ public class FichierTXT extends Fichier {
 
             String line = reader.readLine();
             // traitement en fonction du fichier
+            InvalideFormatException.validerTransportTXT(line);
             if (Objects.equals(line, "% métro")) {
                 this.lireFichierMetro(ligne);
             } else if (Objects.equals(line, "% Car Inter-Cité")) {
