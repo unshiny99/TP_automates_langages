@@ -37,8 +37,7 @@ public class InvalideFormatException extends Exception {
     }
 
     static void validerTransportTXT(String nom) throws InvalideFormatException {
-        System.out.println(nom);
-        if(!nom.matches("% métro") || !nom.matches("% Car Inter-Cité")){
+        if(!nom.matches("% métro") && !nom.matches("% Car Inter-Cité")){
             throw new InvalideFormatException("Le type de transport est invalide dans le fichier texte (l.1)");
         }
     }
